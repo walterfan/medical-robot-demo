@@ -1,0 +1,20 @@
+sequenceDiagram
+    participant Main as 主线程(demo)
+    participant Disp as TaskDispatcher
+    participant R1 as Robot-1 线程
+    participant R2 as Robot-2 线程
+
+    Main->>R1: start() 启动独立线程
+    Main->>R2: start() 启动独立线程
+    loop 每个任务
+        Main->>Disp: dispatch(task)
+        alt 存在队列深度 < capacity 的机器人
+            Disp->>R1: submit(task) 入队(线程安全)
+        else 全部已满
+            Disp-->>Main: 打印「请稍候」并退避重试
+        end
+    end
+    Note over R1,R2: 各线程 FIFO 取任务，sleep(duration) 模拟耗时
+    Main->>R1: stop(drain=True) + join()
+    Main->>R2: stop(drain=True) + join()
+    Main->>Main: 打印协作结果汇总

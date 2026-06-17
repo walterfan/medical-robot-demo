@@ -1,0 +1,16 @@
+flowchart TD
+    Tasks["批量医疗任务<br/>(检查 / 给药 / 测量体征)"] --> Disp["TaskDispatcher<br/>负载感知轮询派发<br/>capacity = 5"]
+
+    Disp -- "轮询 + 选择队列<5" --> R1
+    Disp -- "轮询 + 选择队列<5" --> R2
+    Disp -- "轮询 + 选择队列<5" --> R3
+
+    subgraph R1["Robot-1"]
+        Q1["queue.Queue<br/>(线程安全队列)"] --> T1["Thread(_run)<br/>FIFO 逐个处理<br/>sleep(duration) 模拟耗时"]
+    end
+    subgraph R2["Robot-2"]
+        Q2["queue.Queue<br/>(线程安全队列)"] --> T2["Thread(_run)<br/>FIFO 逐个处理<br/>sleep(duration) 模拟耗时"]
+    end
+    subgraph R3["Robot-3"]
+        Q3["queue.Queue<br/>(线程安全队列)"] --> T3["Thread(_run)<br/>FIFO 逐个处理<br/>sleep(duration) 模拟耗时"]
+    end

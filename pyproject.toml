@@ -1,0 +1,15 @@
+[tool.poetry]
+name = "medbot"
+version = "0.1.0"
+description = "多智能体医疗机器人演示：线程安全任务队列 + 负载感知轮询派发 + 优雅停机"
+authors = ["walter"]
+readme = "README.md"
+package-mode = false
+
+[tool.poetry.dependencies]
+python = ">=3.9,<3.13"
+# 运行时仅依赖 Python 标准库 (threading / queue / logging)。
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
